@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>School Courses</title>
+
+   <!-- Font Awesome CDN Link -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- Custom CSS File Link -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="header">
+   <section class="flex">
+      <a href="home.html" class="logo">DATAMEX</a>
+      <form action="search.html" method="post" class="search-form">
+         <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
+         <button type="submit" class="fas fa-search"></button>
+      </form>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Teacher</h3>
+         <p class="role">Adviser</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+   </section>
+</header>
+
+<!-- Side Bar Section -->
+<div class="side-bar">
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Teacher</h3>
+      <p class="role">Adviser</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+   <nav class="navbar">
+      <a href="home.html"><i class="fas fa-home"></i><span>home</span></a>
+      <a href="about.html"><i class="fas fa-question"></i><span>about</span></a>
+      <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+      <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+      <a href="attendance.html"><i class="fas fa-calendar-check"></i><span>attendance</span></a>
+      <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+   </nav>
+   </nav>
+</div>
+
+<!-- Courses Section -->
+<section class="courses">
+
+   <h1 class="heading">Our School Courses</h1>
+
+   <div class="box-container">
+
+      <!-- Course 1: Mathematics -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/math-teacher.jpg" alt="Math Teacher">
+            <div class="info">
+               <h3>Mr. John Doe</h3>
+               <span>Mathematics Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/math-course.jpg" alt="Mathematics Course">
+            <span>Room 101</span>
+         </div>
+         <h3 class="title">Mathematics</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 120<br>
+            <strong>Faculty:</strong> Mr. John Doe, Ms. Jane Smith<br>
+            <strong>Description:</strong> Explore the world of numbers, algebra, and geometry.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+      <!-- Course 2: Science -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/science-teacher.jpg" alt="Science Teacher">
+            <div class="info">
+               <h3>Ms. Emily Davis</h3>
+               <span>Science Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/science-course.jpg" alt="Science Course">
+            <span>Room 102</span>
+         </div>
+         <h3 class="title">Science</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 150<br>
+            <strong>Faculty:</strong> Ms. Emily Davis, Mr. Michael Wilson<br>
+            <strong>Description:</strong> Discover the wonders of physics, chemistry, and biology.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+      <!-- Course 3: English -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/english-teacher.jpg" alt="English Teacher">
+            <div class="info">
+               <h3>Ms. Sarah Johnson</h3>
+               <span>English Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/english-course.jpg" alt="English Course">
+            <span>Room 103</span>
+         </div>
+         <h3 class="title">English</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 100<br>
+            <strong>Faculty:</strong> Ms. Sarah Johnson, Mr. David Brown<br>
+            <strong>Description:</strong> Master the art of language, literature, and communication.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+      <!-- Course 4: History -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/history-teacher.jpg" alt="History Teacher">
+            <div class="info">
+               <h3>Mr. Robert White</h3>
+               <span>History Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/history-course.jpg" alt="History Course">
+            <span>Room 104</span>
+         </div>
+         <h3 class="title">History</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 90<br>
+            <strong>Faculty:</strong> Mr. Robert White, Ms. Laura Green<br>
+            <strong>Description:</strong> Dive into the past and understand the events that shaped the world.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+      <!-- Course 5: Art -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/art-teacher.jpg" alt="Art Teacher">
+            <div class="info">
+               <h3>Ms. Anna Lee</h3>
+               <span>Art Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/art-course.jpg" alt="Art Course">
+            <span>Room 105</span>
+         </div>
+         <h3 class="title">Art</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 80<br>
+            <strong>Faculty:</strong> Ms. Anna Lee, Mr. James Black<br>
+            <strong>Description:</strong> Unleash your creativity through painting, drawing, and sculpture.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+      <!-- Course 6: Physical Education -->
+      <div class="box">
+         <div class="tutor">
+            <img src="images/pe-teacher.jpg" alt="PE Teacher">
+            <div class="info">
+               <h3>Mr. Chris Evans</h3>
+               <span>Physical Education Department</span>
+            </div>
+         </div>
+         <div class="thumb">
+            <img src="images/pe-course.jpg" alt="PE Course">
+            <span>Gymnasium</span>
+         </div>
+         <h3 class="title">Physical Education</h3>
+         <p class="details">
+            <strong>Total Students:</strong> 200<br>
+            <strong>Faculty:</strong> Mr. Chris Evans, Ms. Rachel Green<br>
+            <strong>Description:</strong> Stay fit and active through sports and physical activities.
+         </p>
+         <a href="#" class="inline-btn">View Details</a>
+      </div>
+
+   </div>
+
+</section>
+
+<!-- Footer Section -->
+<footer class="footer">
+   &copy; copyright @ 2022 by <span>mr. web designer</span> | all rights reserved!
+</footer>
+
+<!-- Custom JS File Link -->
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+
+   <style>
+      /* Hide the profile section on the login page */
+      .header .profile {
+         display: none;
+      }
+      
+      /* Alert styles */
+      .alert {
+         padding: 10px;
+         margin: 10px 0;
+         border-radius: 5px;
+      }
+      
+      .alert-success {
+         background-color: #d4edda;
+         color: #155724;
+         border: 1px solid #c3e6cb;
+      }
+      
+      .alert-danger {
+         background-color: #f8d7da;
+         color: #721c24;
+         border: 1px solid #f5c6cb;
+      }
+   </style>
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex">
+
+      <a href="home.html" class="logo">DATAMEX</a>
+
+      <form action="search.html" method="post" class="search-form">
+         <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
+         <button type="submit" class="fas fa-search"></button>
+      </form>
+
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Teacher</h3>
+         <p class="role">Adviser</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+
+   </section>
+
+</header>   
+
+<div class="side-bar">
+
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Teacher</h3>
+      <p class="role">Adviser</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+
+   <nav class="navbar">
+      <a href="home.html"><i class="fas fa-home"></i><span>home</span></a>
+      <a href="about.html"><i class="fas fa-question"></i><span>about</span></a>
+      <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+      <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+      <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+   </nav>
+
+</div>
+
+<section class="form-container">
+
+   <div id="alertBox" style="display: none;" class="alert"></div>
+
+   <form id="loginForm">
+      <h3>Login Now</h3>
+      <p>Your Email <span>*</span></p>
+      <input type="email" id="email" placeholder="Enter your email" required maxlength="50" class="box">
+      <p>Your Password <span>*</span></p>
+      <input type="password" id="password" placeholder="Enter your password" required maxlength="20" class="box">
+      <input type="submit" value="Login Now" class="btn">
+      <p class="link">Don't have an account? <a href="register.html">Register now</a></p>
+   </form>
+
+</section>
+
+<footer class="footer">
+
+   &copy; copyright @ 2022 by <span>mr. web designer</span> | all rights reserved!
+
+</footer>
+
+<!-- Auth system js file link -->
+<script src="js/auth.js"></script>
+
+<!-- custom js file link  -->
+<script src="js/script.js"></script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+      // Redirect to home if already logged in
+      if (UserDatabase.isLoggedIn()) {
+         window.location.href = 'home.html';
+      }
+      
+      // Check if there's a message from registration
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('message')) {
+         showAlert(params.get('message'), 'success');
+      }
+      
+      // Login form submission
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+         event.preventDefault();
+         
+         // Get input values
+         const email = document.getElementById("email").value;
+         const password = document.getElementById("password").value;
+         
+         // Attempt login
+         const result = UserDatabase.loginUser(email, password);
+         
+         if (result.success) {
+            showAlert('Login successful! Redirecting to home page...', 'success');
+            setTimeout(function() {
+               window.location.href = "home.html";
+            }, 1500);
+         } else {
+            showAlert(result.message, 'danger');
+         }
+      });
+      
+      // Function to show alerts
+      function showAlert(message, type) {
+         const alertBox = document.getElementById('alertBox');
+         alertBox.textContent = message;
+         alertBox.className = 'alert alert-' + type;
+         alertBox.style.display = 'block';
+         
+         // Auto hide after 3 seconds for success messages
+         if (type === 'success') {
+            setTimeout(function() {
+               alertBox.style.display = 'none';
+            }, 3000);
+         }
+      }
+   });
+</script>
+
+</body>
+</html>

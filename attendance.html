@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Attendance Management</title>
+
+   <!-- Font Awesome CDN Link -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- Custom CSS File Link -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="header">
+   <section class="flex">
+      <a href="home.html" class="logo">DATAMEX</a>
+      <form action="search.html" method="post" class="search-form">
+         <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
+         <button type="submit" class="fas fa-search"></button>
+      </form>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Teacher</h3>
+         <p class="role">Adviser</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+   </section>
+</header>
+
+<!-- Side Bar Section -->
+<div class="side-bar">
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Teacher</h3>
+      <p class="role">Adviser</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+   <nav class="navbar">
+      <a href="home.html"><i class="fas fa-home"></i><span>home</span></a>
+      <a href="about.html"><i class="fas fa-question"></i><span>about</span></a>
+      <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+      <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+      <a href="attendance.html"><i class="fas fa-calendar-check"></i><span>attendance</span></a>
+      <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+   </nav>
+</div>
+
+<!-- Attendance Management Section -->
+<section class="attendance">
+
+   <h1 class="heading">Attendance Management</h1>
+
+   <div class="top-bar">
+      <h2>Attendance Overview</h2>
+      <div>
+         <input type="date" id="currentDate" value="">
+         <button class="btn" id="exportAttendance"><i class="fas fa-file-export"></i> Export Report</button>
+      </div>
+   </div>
+
+   <!-- Statistics Cards -->
+   <div class="stats-container">
+      <div class="stat-card present">
+         <div class="icon"><i class="fas fa-check"></i></div>
+         <div class="value" id="presentCount">0</div>
+         <div class="label">Present</div>
+      </div>
+      <div class="stat-card absent">
+         <div class="icon"><i class="fas fa-times"></i></div>
+         <div class="value" id="absentCount">0</div>
+         <div class="label">Absent</div>
+      </div>
+      <div class="stat-card late">
+         <div class="icon"><i class="fas fa-clock"></i></div>
+         <div class="value" id="lateCount">0</div>
+         <div class="label">Late</div>
+      </div>
+   </div>
+
+   <!-- Student Table -->
+   <div class="table-container">
+      <table>
+         <thead>
+            <tr>
+               <th onclick="sortTable('id')">ID <i class="fas fa-sort"></i></th>
+               <th onclick="sortTable('name')">Name <i class="fas fa-sort"></i></th>
+               <th onclick="sortTable('section')">Section <i class="fas fa-sort"></i></th>
+               <th>Attendance</th>
+               <th>Remarks</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody id="studentsListBody">
+            <!-- Student rows will be populated here -->
+         </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+         <button id="prevPage"><i class="fas fa-chevron-left"></i> Previous</button>
+         <span id="pageInfo">Page 1 of 1</span>
+         <button id="nextPage">Next <i class="fas fa-chevron-right"></i></button>
+      </div>
+   </div>
+
+</section>
+
+<!-- Modal for Student Details -->
+<div id="modal">
+   <div class="modal-content">
+      <div class="modal-header">
+         <h3 id="modalTitle">Student Details</h3>
+         <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+      <div id="modalBody">
+         <!-- Content will be dynamically populated -->
+      </div>
+   </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+   &copy; copyright @ 2022 by <span>mr. web designer</span> | all rights reserved!
+</footer>
+
+<!-- Custom JS File Link -->
+<script src="js/script.js"></script>
+
+<script>
+   // JavaScript for Attendance Management
+   document.addEventListener('DOMContentLoaded', function () {
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      document.getElementById('currentDate').value = formattedDate;
+
+      // Sample data for 20 students
+      const students = [
+   { id: '001', name: 'John Doe', section: 'Section 1', picture: 'images/pic-1.png' },
+   { id: '002', name: 'Jane Smith', section: 'Section 2', picture: 'images/pic-2.png' },
+   { id: '003', name: 'Bob Johnson', section: 'Section 1', picture: 'images/pic-3.png' },
+   { id: '004', name: 'Alice Brown', section: 'Section 2', picture: 'images/pic-4.png' },
+   { id: '005', name: 'Charlie Wilson', section: 'Section 1', picture: 'images/pic-5.png' },
+   { id: '006', name: 'David Lee', section: 'Section 3', picture: 'images/pic-6.png' },
+   { id: '007', name: 'Eva Green', section: 'Section 2', picture: 'images/pic-7.png' },
+   { id: '008', name: 'Frank White', section: 'Section 1', picture: 'images/pic-8.png' },
+   { id: '009', name: 'Grace Hall', section: 'Section 3', picture: 'images/pic-9.png' },
+   { id: '010', name: 'Henry Adams', section: 'Section 2', picture: 'images/pic-10.png' }
+   // Continue for other students...
+];
+
+
+      let attendanceData = {};
+      let currentPage = 1;
+      const itemsPerPage = 10;
+      let filteredStudents = [...students];
+
+      // Populate students list
+      function populateStudentsList() {
+         const studentsListBody = document.getElementById('studentsListBody');
+         studentsListBody.innerHTML = '';
+
+         const startIndex = (currentPage - 1) * itemsPerPage;
+         const endIndex = Math.min(startIndex + itemsPerPage, filteredStudents.length);
+         const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
+
+         document.getElementById('pageInfo').textContent =
+            `Page ${currentPage} of ${Math.ceil(filteredStudents.length / itemsPerPage)}`;
+
+         const currentDate = document.getElementById('currentDate').value;
+
+         paginatedStudents.forEach(student => {
+            if (!attendanceData[currentDate]) {
+               attendanceData[currentDate] = {};
+            }
+            if (!attendanceData[currentDate][student.id]) {
+               attendanceData[currentDate][student.id] = { status: null, remarks: '' };
+            }
+
+            const studentAttendance = attendanceData[currentDate][student.id];
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+               <td>${student.id}</td>
+               <td>
+                  <div class="student-profile">
+                     <img src="${student.picture}" alt="${student.name}">
+                     <div class="info">
+                        <span class="name">${student.name}</span>
+                     </div>
+                  </div>
+               </td>
+               <td>${student.section}</td>
+               <td>
+                  <div class="attendance-cell">
+                     <button class="attendance-btn btn-present ${studentAttendance.status === 'present' ? 'active' : ''}" 
+                             onclick="markAttendance('${student.id}', 'present')">
+                        <i class="fas fa-check"></i>
+                     </button>
+                     <button class="attendance-btn btn-absent ${studentAttendance.status === 'absent' ? 'active' : ''}" 
+                             onclick="markAttendance('${student.id}', 'absent')">
+                        <i class="fas fa-times"></i>
+                     </button>
+                     <button class="attendance-btn btn-late ${studentAttendance.status === 'late' ? 'active' : ''}" 
+                             onclick="markAttendance('${student.id}', 'late')">
+                        <i class="fas fa-clock"></i>
+                     </button>
+                  </div>
+               </td>
+               <td>
+                  <input type="text" placeholder="Add remarks..." value="${studentAttendance.remarks}"
+                         onchange="updateRemarks('${student.id}', this.value)">
+               </td>
+               <td>
+                  <button class="btn btn-primary" onclick="viewStudentDetails('${student.id}')">
+                     <i class="fas fa-history"></i> History
+                  </button>
+               </td>
+            `;
+            studentsListBody.appendChild(row);
+         });
+
+         updateAttendanceStats();
+      }
+
+      // Mark attendance
+      window.markAttendance = (studentId, status) => {
+         const currentDate = document.getElementById('currentDate').value;
+
+         if (!attendanceData[currentDate]) {
+            attendanceData[currentDate] = {};
+         }
+
+         if (!attendanceData[currentDate][studentId]) {
+            attendanceData[currentDate][studentId] = { remarks: '' };
+         }
+
+         attendanceData[currentDate][studentId].status = status;
+         populateStudentsList();
+      };
+
+      // Update remarks
+      window.updateRemarks = (studentId, remarks) => {
+         const currentDate = document.getElementById('currentDate').value;
+
+         if (!attendanceData[currentDate]) {
+            attendanceData[currentDate] = {};
+         }
+
+         if (!attendanceData[currentDate][studentId]) {
+            attendanceData[currentDate][studentId] = { status: null };
+         }
+
+         attendanceData[currentDate][studentId].remarks = remarks;
+      };
+
+      // Update attendance statistics
+      function updateAttendanceStats() {
+         const currentDate = document.getElementById('currentDate').value;
+         let presentCount = 0;
+         let absentCount = 0;
+         let lateCount = 0;
+
+         if (attendanceData[currentDate]) {
+            Object.values(attendanceData[currentDate]).forEach(record => {
+               if (record.status === 'present') presentCount++;
+               if (record.status === 'absent') absentCount++;
+               if (record.status === 'late') lateCount++;
+            });
+         }
+
+         document.getElementById('presentCount').textContent = presentCount;
+         document.getElementById('absentCount').textContent = absentCount;
+         document.getElementById('lateCount').textContent = lateCount;
+      }
+
+      // View student details
+      window.viewStudentDetails = (studentId) => {
+         const student = students.find(s => s.id === studentId);
+         const modal = document.getElementById('modal');
+         const modalBody = document.getElementById('modalBody');
+         const modalTitle = document.getElementById('modalTitle');
+
+         if (student) {
+            const history = generateAttendanceHistory(studentId);
+
+            modalTitle.textContent = `${student.name} - Attendance History`;
+
+            let content = `
+               <div class="student-profile" style="margin-bottom: 20px;">
+                  <img src="${student.picture}" alt="${student.name}" style="width: 60px; height: 60px;">
+                  <div class="info" style="margin-left: 15px;">
+                     <h4>${student.name}</h4>
+                     <p>ID: ${student.id}</p>
+                     <p>Section: ${student.section}</p>
+                  </div>
+               </div>
+
+               <h4>Recent Attendance</h4>
+               <div class="student-history">
+            `;
+
+            history.forEach(record => {
+               const statusClass = `status-${record.status}`;
+               content += `
+                  <div class="history-item">
+                     <div>
+                        <strong>${new Date(record.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</strong>
+                        <span>${record.time}</span>
+                     </div>
+                     <span class="history-status ${statusClass}">
+                        ${record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                     </span>
+                  </div>
+               `;
+            });
+
+            content += '</div>';
+            modalBody.innerHTML = content;
+            modal.style.display = 'flex';
+         }
+      };
+
+      // Generate random attendance history
+      const generateAttendanceHistory = (studentId) => {
+         const history = [];
+         const statuses = ['present', 'absent', 'late'];
+         const oneDay = 24 * 60 * 60 * 1000;
+
+         for (let i = 10; i >= 1; i--) {
+            const pastDate = new Date(today.getTime() - (i * oneDay));
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+            history.push({
+               date: pastDate.toISOString().split('T')[0],
+               status: randomStatus,
+               time: randomStatus === 'late' ?
+                  `${Math.floor(Math.random() * 2) + 8}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')} AM` :
+                  '8:00 AM'
+            });
+         }
+
+         return history;
+      };
+
+      // Close modal
+      document.getElementById('closeModal').addEventListener('click', () => {
+         document.getElementById('modal').style.display = 'none';
+      });
+
+      // Initial population of the students list
+      populateStudentsList();
+   });
+
+   // Sample data generator for one month of attendance records
+function generateOneMonthAttendanceData() {
+  // Define the current month (let's use March 2025 for this example)
+  const year = 2025;
+  const month = 2; // 0-based, so 2 = March
+  
+  // Get all days in the month
+  const daysInMonth = new Date(year, month + 1, 0).getDate(); // 31 for March
+  
+  // Sample students (using the ones from your existing data)
+  const sampleStudents = [
+    { id: '001', name: 'John Doe', section: 'Section 1', picture: 'images/pic-1.png' },
+    { id: '002', name: 'Jane Smith', section: 'Section 2', picture: 'images/pic-2.png' },
+    { id: '003', name: 'Bob Johnson', section: 'Section 1', picture: 'images/pic-3.png' },
+    { id: '004', name: 'Alice Brown', section: 'Section 2', picture: 'images/pic-4.png' },
+    { id: '005', name: 'Charlie Wilson', section: 'Section 1', picture: 'images/pic-5.png' },
+    { id: '006', name: 'David Lee', section: 'Section 3', picture: 'images/pic-6.png' },
+    { id: '007', name: 'Eva Green', section: 'Section 2', picture: 'images/pic-7.png' },
+    { id: '008', name: 'Frank White', section: 'Section 1', picture: 'images/pic-8.png' },
+    { id: '009', name: 'Grace Hall', section: 'Section 3', picture: 'images/pic-9.png' },
+    { id: '010', name: 'Henry Adams', section: 'Section 2', picture: 'images/pic-10.png' }
+  ];
+  
+  // Status options
+  const statuses = ['present', 'absent', 'late'];
+  
+  // Initialize attendance data object
+  const sampleAttendanceData = {};
+  
+  // Realistic attendance patterns
+  // - Weekend days (Saturday/Sunday) will have no attendance records
+  // - Each student has personalized attendance pattern
+  // - Some students are more prone to absence or tardiness
+  
+  // Generate data for each day of the month
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const dateString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    
+    // Skip weekends (no school)
+    const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      continue;
+    }
+    
+    // Initialize this date in the attendance data
+    sampleAttendanceData[dateString] = {};
+    
+    // Generate attendance for each student on this day
+    sampleStudents.forEach(student => {
+      // Different attendance patterns based on student ID
+      let statusProbabilities;
+      
+      switch (student.id) {
+        case '001': // Very reliable student
+          statusProbabilities = [0.95, 0.01, 0.04]; // [present, absent, late]
+          break;
+        case '002': // Often late
+          statusProbabilities = [0.70, 0.05, 0.25];
+          break;
+        case '003': // Average attendance
+          statusProbabilities = [0.85, 0.10, 0.05];
+          break;
+        case '004': // High absence rate
+          statusProbabilities = [0.60, 0.35, 0.05];
+          break;
+        case '005': // Perfect attendance
+          statusProbabilities = [1.00, 0.00, 0.00];
+          break;
+        default: // Other students have random patterns
+          statusProbabilities = [
+            0.70 + Math.random() * 0.20, // 70-90% present
+            Math.random() * 0.20,        // 0-20% absent
+            Math.random() * 0.10         // 0-10% late
+          ];
+          
+          // Normalize probabilities to ensure they sum to 1
+          const sum = statusProbabilities.reduce((a, b) => a + b, 0);
+          statusProbabilities = statusProbabilities.map(p => p / sum);
+      }
+      
+      // Determine status based on probabilities
+      const rand = Math.random();
+      let status;
+      if (rand < statusProbabilities[0]) {
+        status = statuses[0]; // present
+      } else if (rand < statusProbabilities[0] + statusProbabilities[1]) {
+        status = statuses[1]; // absent
+      } else {
+        status = statuses[2]; // late
+      }
+      
+      // Add remarks for some students (about 30% of records)
+      let remarks = '';
+      if (Math.random() < 0.3) {
+        const remarkOptions = [
+          'Called in sick',
+          'Family emergency',
+          'Doctor appointment',
+          'Arrived during second period',
+          'Left early for sports tournament',
+          'Excellent participation today',
+          'Needs to focus more in class',
+          'Missing homework',
+          'Participated actively',
+          'Sleeping in class'
+        ];
+        
+        remarks = remarkOptions[Math.floor(Math.random() * remarkOptions.length)];
+      }
+      
+      // Add to attendance data
+      sampleAttendanceData[dateString][student.id] = {
+        status: status,
+        remarks: remarks
+      };
+    });
+  }
+  
+  return sampleAttendanceData;
+}
+
+// Generate and assign the sample data
+const sampleMonthData = generateOneMonthAttendanceData();
+
+// To use this sample data in your application:
+// 1. Copy the generated data to console
+console.log(JSON.stringify(sampleMonthData, null, 2));
+
+// 2. Or directly assign it to your attendanceData variable:
+// attendanceData = {...attendanceData, ...sampleMonthData};
+
+// 3. For testing specific dates, you could load the data for the selected date:
+document.addEventListener('DOMContentLoaded', function() {
+  // Load sample data
+  attendanceData = {...attendanceData, ...sampleMonthData};
+  
+  // When a date is selected, update the view
+  const datePicker = document.getElementById('currentDate');
+  if (datePicker) {
+    datePicker.addEventListener('change', function() {
+      populateStudentsList();
+      updateAttendanceStats();
+    });
+  }
+  
+  // Initialize with current date data
+  populateStudentsList();
+  updateAttendanceStats();
+});
+
+</script>
+</body>
+</html>
